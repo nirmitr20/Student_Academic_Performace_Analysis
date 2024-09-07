@@ -1,0 +1,6 @@
+[ 2024-09-07 05:34:19,476 ] 76 root - INFO - Read train and test data completed
+[ 2024-09-07 05:34:19,476 ] 77 root - INFO - Obtaining preprocessing object
+[ 2024-09-07 05:34:19,476 ] 51 root - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
+[ 2024-09-07 05:34:19,476 ] 52 root - INFO - Numerical columns: ['writing_score', 'reading_score']
+[ 2024-09-07 05:34:19,477 ] 89 root - INFO - Applying preprocessing object on training and testing data.
+[ 2024-09-07 05:34:19,491 ] 97 root - INFO - Preprocessing object saved at artifacts\preprocessor.pkl

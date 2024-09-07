@@ -1,0 +1,13 @@
+[ 2024-09-07 05:41:48,500 ] 34 root - INFO - Entered the data ingestion method or component
+[ 2024-09-07 05:41:48,505 ] 43 root - INFO - Read the dataset as a dataframe
+[ 2024-09-07 05:41:48,506 ] 49 root - INFO - Directory artifacts created successfully
+[ 2024-09-07 05:41:48,511 ] 55 root - INFO - Train-test split initiated
+[ 2024-09-07 05:41:48,518 ] 62 root - INFO - Ingestion of the data is completed
+[ 2024-09-07 05:41:48,538 ] 76 root - INFO - Read train and test data completed
+[ 2024-09-07 05:41:48,538 ] 77 root - INFO - Obtaining preprocessing object
+[ 2024-09-07 05:41:48,539 ] 51 root - INFO - Categorical columns: ['gender', 'race_ethnicity', 'parental_level_of_education', 'lunch', 'test_preparation_course']
+[ 2024-09-07 05:41:48,541 ] 52 root - INFO - Numerical columns: ['writing_score', 'reading_score']
+[ 2024-09-07 05:41:48,542 ] 89 root - INFO - Applying preprocessing object on training and testing data.
+[ 2024-09-07 05:41:48,559 ] 97 root - INFO - Preprocessing object saved at artifacts\preprocessor.pkl
+[ 2024-09-07 05:41:48,560 ] 33 root - INFO - Split training and test input data
+[ 2024-09-07 05:43:20,498 ] 102 root - INFO - Best found model on both training and testing dataset

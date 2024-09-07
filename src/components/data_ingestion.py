@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 from src.exception import CustomException
 from src.logger import logging
+from src.components.data_transformation import DataTransformation
+from src.components.model_trainer import ModelTrainer
 
 # Ensure logging is set up
 LOG_FILE_PATH = os.path.join(os.getcwd(), 'logs', 'app.log')
@@ -36,7 +38,8 @@ class DataIngestion:
             print(f"Test Data Path: {self.ingestion_config.test_data_path}")
             print(f"Raw Data Path: {self.ingestion_config.raw_data_path}")
 
-            df = pd.read_csv('notebook/data/stud.csv')  # Ensure the path to the CSV file is correct
+            # Ensure the path to the CSV file is correct
+            df = pd.read_csv('notebook/data/stud.csv')
             logging.info('Read the dataset as a dataframe')
 
             # Ensure the artifacts directory is created
@@ -69,15 +72,17 @@ class DataIngestion:
 
 if __name__ == "__main__":
     try:
+        # Create an instance of DataIngestion
         obj = DataIngestion()
         train_data, test_data = obj.initiate_data_ingestion()
 
-        # Assuming DataTransformation and ModelTrainer exist
+        # Create instances of DataTransformation and ModelTrainer
         data_transformation = DataTransformation()
         train_arr, test_arr, _ = data_transformation.initiate_data_transformation(train_data, test_data)
 
         model_trainer = ModelTrainer()
-        print(model_trainer.initiate_model_trainer(train_arr, test_arr))
+        result = model_trainer.initiate_model_trainer(train_arr, test_arr)
+        print(result)
 
     except Exception as e:
         print(f"An error occurred: {e}")

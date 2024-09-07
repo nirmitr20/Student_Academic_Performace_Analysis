@@ -6,10 +6,10 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
+import os
+import pickle
 from src.exception import CustomException
 from src.logger import logging
-import os
-from src.utils import save_object
 
 @dataclass
 class DataTransformationConfig:
@@ -61,10 +61,15 @@ class DataTransformation:
             return preprocessor
         
         except Exception as e:
+            logging.error(f"Error in get_data_transformer_object: {e}")
             raise CustomException(e, sys)
         
     def initiate_data_transformation(self, train_path, test_path):
         try:
+            # Ensure artifacts directory exists
+            if not os.path.exists('artifacts'):
+                os.makedirs('artifacts')
+
             train_df = pd.read_csv(train_path)
             test_df = pd.read_csv(test_path)
 
@@ -74,7 +79,6 @@ class DataTransformation:
             preprocessing_obj = self.get_data_transformer_object()
 
             target_column_name = "math_score"
-            numerical_columns = ["writing_score", "reading_score"]
 
             input_feature_train_df = train_df.drop(columns=[target_column_name], axis=1)
             target_feature_train_df = train_df[target_column_name]
@@ -82,7 +86,7 @@ class DataTransformation:
             input_feature_test_df = test_df.drop(columns=[target_column_name], axis=1)
             target_feature_test_df = test_df[target_column_name]
 
-            logging.info(f"Applying preprocessing object on training dataframe and testing dataframe.")
+            logging.info("Applying preprocessing object on training and testing data.")
 
             input_feature_train_arr = preprocessing_obj.fit_transform(input_feature_train_df)
             input_feature_test_arr = preprocessing_obj.transform(input_feature_test_df)
@@ -90,12 +94,11 @@ class DataTransformation:
             train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
-            logging.info(f"Saved preprocessing object.")
+            logging.info(f"Preprocessing object saved at {self.data_transformation_config.preprocessor_obj_file_path}")
 
-            save_object(
-                file_path=self.data_transformation_config.preprocessor_obj_file_path,
-                obj=preprocessing_obj
-            )
+            # Save the preprocessing object
+            with open(self.data_transformation_config.preprocessor_obj_file_path, 'wb') as file:
+                pickle.dump(preprocessing_obj, file)
 
             return (
                 train_arr,
@@ -103,4 +106,18 @@ class DataTransformation:
                 self.data_transformation_config.preprocessor_obj_file_path
             )
         except Exception as e:
+            logging.error(f"Error in initiate_data_transformation: {e}")
             raise CustomException(e, sys)
+
+# Example usage
+if __name__ == "__main__":
+    # Replace with actual paths to your CSV files
+    train_path = 'artifacts/train.csv'
+    test_path = 'artifacts/test.csv'
+    
+    data_transformation = DataTransformation()
+    train_arr, test_arr, preprocessor_path = data_transformation.initiate_data_transformation(train_path, test_path)
+    
+    print(f"Train array shape: {train_arr.shape}")
+    print(f"Test array shape: {test_arr.shape}")
+    print(f"Preprocessor object saved at: {preprocessor_path}")

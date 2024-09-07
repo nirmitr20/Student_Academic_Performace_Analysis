@@ -1,0 +1,5 @@
+[ 2024-09-07 05:05:11,773 ] 32 root - INFO - Entered the data ingestion method or component
+[ 2024-09-07 05:05:11,780 ] 40 root - INFO - Read the dataset as a dataframe
+[ 2024-09-07 05:05:11,781 ] 46 root - INFO - Directory artifacts created successfully
+[ 2024-09-07 05:05:11,786 ] 52 root - INFO - Train-test split initiated
+[ 2024-09-07 05:05:11,792 ] 59 root - INFO - Ingestion of the data is completed
